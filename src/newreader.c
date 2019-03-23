@@ -61,7 +61,7 @@ static t_vec	*new_vec(int j, int k, int *i, t_map *map)
 	new->z = ft_atoi(&map->lmap[*i]);
 	map->depth_min = new->z < map->depth_min ? new->z : map->depth_min;
 	map->depth_max = new->z > map->depth_max ? new->z : map->depth_max;
-	while (map->lmap[*i] >= '0' && map->lmap[*i] <= '9')
+	while ((map->lmap[*i] >= '0' && map->lmap[*i] <= '9') || map->lmap[*i] == '-')
 		i[0]++;
 	if (map->lmap[*i] == ',')
 	{
@@ -87,10 +87,10 @@ int				writer(t_map *map, int i, int y, int x)
 	i = 0;
 	while (map->lmap[i])
 	{
-		if (map->lmap[i] >= '0' && map->lmap[i] <= '9')
+		if ((map->lmap[i] >= '0' && map->lmap[i] <= '9') || map->lmap[i] == '-')
 		{
 			map->vecs[y][x] = new_vec(y, x, &i, map);
-			x += x < map->width ? 1 : 0;
+			x++;
 		}
 		if (map->lmap[i] == '\n')
 		{
@@ -111,9 +111,9 @@ int				valider(t_map *map, unsigned i, int j, unsigned size)
 	{
 		while (map->lmap[i] == ' ')
 			i++;
-		if (map->lmap[i] >= 48 && map->lmap[i] <= 57)
+		if ((map->lmap[i] >= 48 && map->lmap[i] <= 57) || map->lmap[i] == '-')
 		{
-			while (map->lmap[i] >= 48 && map->lmap[i] <= 57)
+			while ((map->lmap[i] >= 48 && map->lmap[i] <= 57) || map->lmap[i] == '-')
 				i++;
 			map->width += map->height ? 0 : 1;
 			j++;
